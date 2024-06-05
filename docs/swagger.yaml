@@ -1,0 +1,227 @@
+definitions:
+  handler.CreateweatherRequest:
+    properties:
+      name:
+        type: string
+      location:
+        type: string
+      temperature:
+        type: number
+    type: object
+  handler.CreateweatherResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.weatherResponse'
+      message:
+        type: string
+    type: object
+  handler.DeleteweatherResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.weatherResponse'
+      message:
+        type: string
+    type: object
+  handler.ErrorResponse:
+    properties:
+      errorCode:
+        type: string
+      message:
+        type: string
+    type: object
+  handler.ListweathersResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/schemas.weatherResponse'
+        type: array
+      message:
+        type: string
+    type: object
+  handler.ShowweatherResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.weatherResponse'
+      message:
+        type: string
+    type: object
+  handler.UpdateweatherRequest:
+    properties:
+      name:
+        type: string
+      location:
+        type: string
+      temperature:
+        type: number
+    type: object
+  handler.UpdateweatherResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.weatherResponse'
+      message:
+        type: string
+    type: object
+  schemas.weatherResponse:
+    properties:
+      name:
+        type: string
+      createdAt:
+        type: string
+      deteledAt:
+        type: string
+      id:
+        type: integer
+      location:
+        type: string
+      temperature:
+        type: number
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /weather:
+    delete:
+      consumes:
+      - application/json
+      description: Delete a new job weather
+      parameters:
+      - description: weather identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.DeleteweatherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Delete weather
+      tags:
+      - weathers
+    get:
+      consumes:
+      - application/json
+      description: Show a job weather
+      parameters:
+      - description: weather identification
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ShowweatherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Show weather
+      tags:
+      - weathers
+    post:
+      consumes:
+      - application/json
+      description: Create a new job weather
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/handler.CreateweatherRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.CreateweatherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Create weather
+      tags:
+      - weathers
+    put:
+      consumes:
+      - application/json
+      description: Update a job weather
+      parameters:
+      - description: weather Identification
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: weather data to Update
+        in: body
+        name: weather
+        required: true
+        schema:
+          $ref: '#/definitions/handler.UpdateweatherRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.UpdateweatherResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: Update weather
+      tags:
+      - weathers
+  /weathers:
+    get:
+      consumes:
+      - application/json
+      description: List all job weathers
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.ListweathersResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ErrorResponse'
+      summary: List weathers
+      tags:
+      - weathers
+swagger: "2.0"
